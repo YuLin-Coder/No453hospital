@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>左侧导航栏</title>
+</head>
+<body>
+  <aside class="lyear-layout-sidebar"  th:fragment="leftside">
+    <!-- logo -->
+    <div id="logo" class="sidebar-header" style="background-color: #48b0f7;">
+        <a href="javascript:void(0)" ><p style="margin: 19px 0px;font-size: 21px;color: #4d5259;">普通用户后台</p></a>
+    </div>
+    <div class="lyear-layout-sidebar-scroll" style="background-color: #4d5259;">
+
+        <nav class="sidebar-main" >
+            <ul class="nav nav-drawer">
+                <li class="nav-item"> <a href="/api/patientList2" th:style="'color:' + ${cl =='pat' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-grease-pencil"></i>预约记录</a> </li>
+                <li class="nav-item"> <a href="/api/doctorList1" th:style="'color:' + ${cl =='yisheng' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-grease-pencil"></i>医生管理</a> </li>
+            </ul>
+        </nav>
+    </div>
+  </aside>
+
+</body>
+</html>

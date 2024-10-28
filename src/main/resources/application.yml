@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+     datasource:
+       username: root
+       password: root
+       url: jdbc:mysql://localhost:3306/hospital?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+       driver-class-name: com.mysql.cj.jdbc.Driver
+       #url: jdbc:sqlserver://localhost:3306;DatabaseName=hospital
+       #driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+       type: com.alibaba.druid.pool.DruidDataSource
+     #thymeleaf模板配置
+     thymeleaf:
+           cache:  false #这个开发配置为false，避免改了模板还要重启服务器
+           prefix: classpath:/templates/  #prefix：指定模板所在的目录
+           suffix: .html
+     servlet:
+         multipart:
+            max-file-size:    100MB  #单个文件大小。值可以使用后缀“MB”或“KB”
+            max-request-size: 200MB  #一次请求文件的总大小
+mybatis:
+     mapper-locations: classpath:mapper/*.xml  #对应mapper映射xml文件的所在路径
+     type-aliases-package: com.hos.hospital.entity     #对应实体类的路径
+ #分页配置
+pagehelper:
+     helperDialect: mysql
+     reasonable: true
+     supportMethodsArguments: true
+     params: count=countSql
+filePath: file:/D:/daima/wenjian/  #路径映射
+fileUrl:  D:/daima/wenjian/        #文件保存地址
+ 

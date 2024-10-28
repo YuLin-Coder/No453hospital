@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hos.hospital.mapper.DoctorMapper" >
+  <resultMap id="BaseResultMap" type="com.hos.hospital.entity.Doctor" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="passwoed" property="passwoed" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="forte" property="forte" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="hosname" property="hosname" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+    <result column="evaluate" property="evaluate" jdbcType="INTEGER" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="begindate" property="begindate" jdbcType="DATE" />
+    <result column="enddate" property="enddate" jdbcType="DATE" />
+    <result column="begintime" property="begintime" jdbcType="TIME" />
+    <result column="endtime" property="endtime" jdbcType="TIME" />
+    <result column="peoples" property="peoples" jdbcType="INTEGER" />
+    <result column="yipeoples" property="yipeoples" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, username, passwoed, name, forte, position, hosname, introduce, numbers, evaluate, 
+    img, sid, sname, begindate, enddate, begintime, endtime, peoples, yipeoples
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hos.hospital.entity.DoctorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from doctor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from doctor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectTime" resultMap="BaseResultMap" parameterType="com.hos.hospital.entity.Doctor" >
+    select 
+    <include refid="Base_Column_List" />
+    from doctor
+    where 
+    	sid = #{sid,jdbcType=INTEGER}  and  begindate  &lt;=  #{begindate,jdbcType=DATE}   and  enddate    &gt;= #{begindate,jdbcType=DATE} 
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from doctor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hos.hospital.entity.DoctorExample" >
+    delete from doctor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hos.hospital.entity.Doctor" >
+    insert into doctor (id, username, passwoed, 
+      name, forte, position, 
+      hosname, introduce, numbers, 
+      evaluate, img, sid, 
+      sname, begindate, enddate, 
+      begintime, endtime, peoples, 
+      yipeoples)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{passwoed,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{forte,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{hosname,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{numbers,jdbcType=INTEGER}, 
+      #{evaluate,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, #{sid,jdbcType=INTEGER}, 
+      #{sname,jdbcType=VARCHAR}, #{begindate,jdbcType=DATE}, #{enddate,jdbcType=DATE}, 
+      #{begintime,jdbcType=TIME}, #{endtime,jdbcType=TIME}, #{peoples,jdbcType=INTEGER}, 
+      #{yipeoples,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hos.hospital.entity.Doctor"   useGeneratedKeys="true" keyProperty="id">
+    insert into doctor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="passwoed != null" >
+        passwoed,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="forte != null" >
+        forte,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="hosname != null" >
+        hosname,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="evaluate != null" >
+        evaluate,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="begindate != null" >
+        begindate,
+      </if>
+      <if test="enddate != null" >
+        enddate,
+      </if>
+      <if test="begintime != null" >
+        begintime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="peoples != null" >
+        peoples,
+      </if>
+      <if test="yipeoples != null" >
+        yipeoples,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="passwoed != null" >
+        #{passwoed,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="forte != null" >
+        #{forte,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="hosname != null" >
+        #{hosname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="evaluate != null" >
+        #{evaluate,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        #{begindate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=DATE},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIME},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIME},
+      </if>
+      <if test="peoples != null" >
+        #{peoples,jdbcType=INTEGER},
+      </if>
+      <if test="yipeoples != null" >
+        #{yipeoples,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hos.hospital.entity.DoctorExample" resultType="java.lang.Integer" >
+    select count(*) from doctor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update doctor
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwoed != null" >
+        passwoed = #{record.passwoed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.forte != null" >
+        forte = #{record.forte,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosname != null" >
+        hosname = #{record.hosname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduce != null" >
+        introduce = #{record.introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numbers != null" >
+        numbers = #{record.numbers,jdbcType=INTEGER},
+      </if>
+      <if test="record.evaluate != null" >
+        evaluate = #{record.evaluate,jdbcType=INTEGER},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null" >
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sname != null" >
+        sname = #{record.sname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.begindate != null" >
+        begindate = #{record.begindate,jdbcType=DATE},
+      </if>
+      <if test="record.enddate != null" >
+        enddate = #{record.enddate,jdbcType=DATE},
+      </if>
+      <if test="record.begintime != null" >
+        begintime = #{record.begintime,jdbcType=TIME},
+      </if>
+      <if test="record.endtime != null" >
+        endtime = #{record.endtime,jdbcType=TIME},
+      </if>
+      <if test="record.peoples != null" >
+        peoples = #{record.peoples,jdbcType=INTEGER},
+      </if>
+      <if test="record.yipeoples != null" >
+        yipeoples = #{record.yipeoples,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update doctor
+    set id = #{record.id,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      passwoed = #{record.passwoed,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      forte = #{record.forte,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      hosname = #{record.hosname,jdbcType=VARCHAR},
+      introduce = #{record.introduce,jdbcType=VARCHAR},
+      numbers = #{record.numbers,jdbcType=INTEGER},
+      evaluate = #{record.evaluate,jdbcType=INTEGER},
+      img = #{record.img,jdbcType=VARCHAR},
+      sid = #{record.sid,jdbcType=INTEGER},
+      sname = #{record.sname,jdbcType=VARCHAR},
+      begindate = #{record.begindate,jdbcType=DATE},
+      enddate = #{record.enddate,jdbcType=DATE},
+      begintime = #{record.begintime,jdbcType=TIME},
+      endtime = #{record.endtime,jdbcType=TIME},
+      peoples = #{record.peoples,jdbcType=INTEGER},
+      yipeoples = #{record.yipeoples,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hos.hospital.entity.Doctor" >
+    update doctor
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="passwoed != null" >
+        passwoed = #{passwoed,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="forte != null" >
+        forte = #{forte,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="hosname != null" >
+        hosname = #{hosname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="evaluate != null " >
+        evaluate = #{evaluate,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        begindate = #{begindate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        enddate = #{enddate,jdbcType=DATE},
+      </if>
+      <if test="begintime != null" >
+        begintime = #{begintime,jdbcType=TIME},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=TIME},
+      </if>
+      <if test="peoples != null" >
+        peoples = #{peoples,jdbcType=INTEGER},
+      </if>
+      <if test="yipeoples != null" >
+        yipeoples = #{yipeoples,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hos.hospital.entity.Doctor" >
+    update doctor
+    set username = #{username,jdbcType=VARCHAR},
+      passwoed = #{passwoed,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      forte = #{forte,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      hosname = #{hosname,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      numbers = #{numbers,jdbcType=INTEGER},
+      evaluate = #{evaluate,jdbcType=INTEGER},
+      img = #{img,jdbcType=VARCHAR},
+      sid = #{sid,jdbcType=INTEGER},
+      sname = #{sname,jdbcType=VARCHAR},
+      begindate = #{begindate,jdbcType=DATE},
+      enddate = #{enddate,jdbcType=DATE},
+      begintime = #{begintime,jdbcType=TIME},
+      endtime = #{endtime,jdbcType=TIME},
+      peoples = #{peoples,jdbcType=INTEGER},
+      yipeoples = #{yipeoples,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

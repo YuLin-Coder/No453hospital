@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>医生后台</title>
+    <link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+    <meta name="keywords" content="医生后台">
+    <meta name="description" content="医生后台">
+    <meta name="author" content="yinqi">
+    <link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/behindstatic/css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+
+        <!--引入左侧导航页面-->
+        <nav th:replace="~{admin/left   ::  leftside(cl='index')}"></nav>
+        <!--引入头部导航页面-->
+        <nav th:replace="~{admin/header  ::  headerside}"></nav>
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3" >
+                        <div class="card bg-primary" style="background-color: #48b0f7;">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 text-white m-t-0">医生数量</p>
+                                    <p class="h3 text-white m-b-0 fa-1-5x">[[${doctor}]] </p>
+                                </div>
+                                <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-message-plus fa-1-5x"></i></span> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-danger">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 text-white m-t-0">科室数量</p>
+                                    <p class="h3 text-white m-b-0 fa-1-5x">[[${section}]]</p>
+                                </div>
+                                <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-account fa-1-5x"></i></span> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-success">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 text-white m-t-0">患者数量</p>
+                                    <p class="h3 text-white m-b-0 fa-1-5x">[[${patient}]]</p>
+                                </div>
+                                <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-coffee-outline fa-1-5x"></i></span> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card bg-purple">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 text-white m-t-0">预约总数</p>
+                                    <p class="h3 text-white m-b-0 fa-1-5x">[[${messages}]]</p>
+                                </div>
+                                <div class="pull-left"> <span class="img-avatar img-avatar-48 bg-translucent"><i class="mdi mdi-comment-outline fa-1-5x"></i></span> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>预约数量</h4>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chart-pie" width="350" height="350" style="margin: 0 15%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>预约数量</h4>
+                            </div>
+                            <div class="card-body">
+                                 <canvas id="chart-doughnut"  width="350" height="350"  style="margin: 0 15%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+
+<!--图表插件-->
+<script type="text/javascript" src="/behindstatic/js/Chart.js"></script>
+<script type="text/javascript">
+	var doctor  ="[[${doctor}]]";
+	var section  ="[[${section}]]";
+	var patient  ="[[${patient}]]";
+
+     var name  = "[[${name}]]";
+     var nu  = "[[${nu}]]";
+     var xname = name.split(",");
+     var xnu = nu.split(",");
+     
+     new Chart($("#chart-pie"), {
+         type: 'pie',
+         data: {
+             labels: xname,
+             datasets: [{
+                 data: xnu,
+                 backgroundColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)','#15c377 ']
+             }]
+         },
+         options: {
+             responsive: false
+         }
+     });
+     
+     new Chart($("#chart-doughnut"), {
+    	    type: 'doughnut',
+    	    data: {
+    	        labels: ['医生数量','科室数量','患者数量'],
+    	        datasets: [{
+    	            data: [doctor,section,patient],
+    	            backgroundColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)']
+    	        }]
+    	    },
+    	    options: {
+    	        responsive: false
+    	    }
+    	});
+     
+     
+    
+</script>
+</body>
+</html>

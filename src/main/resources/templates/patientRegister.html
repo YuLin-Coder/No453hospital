@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>医院管理平台</title>
+<link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+<meta name="keywords" content="医院管理平台">
+<meta name="description" content="医院管理平台">
+<meta name="author" content="yinqi">
+<link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+<link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+<!--标签插件-->
+<link rel="stylesheet" href="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.css">
+<link href="/behindstatic/css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+    <!--页面主要内容-->
+    <main class="lyear-layout-content" style="margin: -72px -98px;">
+     <h1 style="text-align: center;">患者注册</h1>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <form action="/api/patientSave" method="post" class="row"  >
+                    <input id="personId"  type="hidden"   name="id">
+                    <div class="form-group col-md-12">
+                        <label for="mima">账号</label>
+                        <input type="text" class="form-control" id="zhanghao" name="username"  placeholder="请输入账号" />
+                    </div>
+                    
+               <!--      `id`  int(11) NOT NULL ,
+`identitys`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`pid`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`type`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`phone`  varchar(111) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL , -->
+                   <div class="form-group col-md-12">
+                      <label for="mima">密码</label>
+                      <input type="password" class="form-control" id="mima" name="password"  placeholder="请输入密码" />
+                    </div>
+	                 <div class="form-group col-md-12">
+	                        <label for="mima">姓名</label>
+	                        <input type="text" class="form-control" id="zhanghao" name="name"  placeholder="请输入姓名" />
+	                 </div>
+                    <div class="form-group col-md-12">
+                           <label for="example-select">性别</label>
+	                        <select class="form-control" name ="sex" id="example-select" >
+		                        <option    th:value="1"  >男</option>
+                           		<option    th:value="2"  >女</option>
+                           
+                           </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="mima">年龄</label>
+                        <input type="text" class="form-control" id="zhanghao" name="age"  placeholder="请输入年龄" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="mima">手机号</label>
+                        <input type="text" class="form-control" id="zhanghao" name="phone"  placeholder="请输入手机号码" />
+                    </div>
+                      <div class="form-group col-md-12">
+                           <label for="example-select">身份</label>
+	                        <select class="form-control" name ="identitys" id="example-select" >
+		                        <option    th:value="患者"  >患者</option>
+                           		<option    th:value="家属"  >家属</option>
+                           
+                           </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <button type="button" class="btn btn-primary" target-form="add-form" id="sumits">确 定</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+
+
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<!--标签插件-->
+<script src="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script>
+ $(function(){
+	 
+	 
+	 
+	    var formData = new FormData();//可以向后台传输文件
+
+		    $("#sumits").click(function(){
+			          if($("#zhanghao").val() == null ||  $("#zhanghao").val() == ''){
+			           alert("请输入账号");
+			           return;
+			          }
+			          if($("#mima").val() == null ||  $("#mima").val() == ''){
+				           alert("请输入密码");
+				           return;
+				      }
+			          $.ajax({
+			                 type: "get",
+			                 url: "/api/panzhanghao?zhanghao="+$("#zhanghao").val(),
+			                 success: function (data) {
+			                     if (data.pan == "ok") {
+			                    	 $("form").submit();
+			                     } else {
+			                         alert("该账号存在");
+			                     }
+			                 }
+			          });
+			          
+			        
+		    });
+	  });
+  
+  
+ 
+ 
+
+</script>
+
+
+
+</body>
+</html>

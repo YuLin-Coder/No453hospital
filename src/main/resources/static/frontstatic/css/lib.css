@@ -1,0 +1,172 @@
+﻿/*底部*/
+#copyright{width: 100%;text-align: center;background: #000;font-size: 14px;color: #686868;padding: 22px 10px;}
+#copyright a{color: #686868;}
+#copyright a:hover{color: #fff;}
+.section #copyright{position: absolute;left:0;bottom: 0;}
+.formBox{padding-bottom: 150px;}
+
+/*右侧浮动条*/
+.fixed ul{opacity: 0;}
+.fixed{position: fixed;right:50px;top:50%;transform: translateY(-50%);-webkit-transform: translateY(-50%);width: 50px;z-index: 9000000 !important;}
+.fixed li{width: 50px;height: 50px;margin-bottom: 8px;position: relative;-o-transition:.3s;
+
+-ms-transition:.3s;
+
+-moz-transition:.3s;
+
+-webkit-transition:.3s;
+
+transition:.3s;}
+
+.fixed li span,.fixed li a{display: inline-block;width: 50px;height: 50px;border-radius: 50%;-o-transition:.3s;
+
+-ms-transition:.3s;
+
+-moz-transition:.3s;
+
+-webkit-transition:.3s;
+
+transition:.3s;}
+
+.fixed li.tel{overflow: hidden;}
+.fixed li.tel{background-color: rgba(0,0,0,0.4); border-radius: 50%;}
+.fixed li.tel span{background: url(../images/ico-tel.png) no-repeat center center;display: block;float: left;
+    width: 50px;
+    height: 50px;
+    -webkit-animation-name: hvr-buzz;
+    animation-name: hvr-buzz;
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+
+
+/* Buzz */
+@-webkit-keyframes hvr-buzz {
+  50% {
+    -webkit-transform:rotate(5deg);
+    transform:rotate(5deg);
+  }
+
+  100% {
+    -webkit-transform:  rotate(-5deg);
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes hvr-buzz {
+  50% {
+    -webkit-transform:rotate(5deg);
+    transform:rotate(5deg);
+  }
+
+  100% {
+    -webkit-transform:  rotate(-5deg);
+    transform: rotate(-5deg);
+  }
+}
+
+
+
+.fixed li.tel em{position: absolute;left:50px;top:0;height: 50px;line-height: 50px; font-size: 18px;font-weight: bold;color: #fff;width: 130px;white-space: nowrap; font-style:normal;}
+
+.fixed li.qq a{background:rgba(0,0,0,0.4) url(../images/ico-qq.png) no-repeat center center;}
+
+.fixed li.weixin{overflow: hidden;}
+
+.fixed li.weixin span{background: rgba(0,0,0,0.4) url(../images/ico-weixin.png) no-repeat center center;}
+
+.fixed li.weixin em{position: absolute;left:-160px;padding-right: 25px;top:-70px;opacity: 0;transform: translateX(25px);-webkit-transform: translateX(25px); -o-transition:.3s;
+
+-ms-transition:.3s;
+
+-moz-transition:.3s;
+
+-webkit-transition:.3s;
+
+transition:.3s;}
+
+.fixed li.weixin em img{width: 135px;height: 135px;}
+
+.fixed li.weixin:hover{overflow: visible;}
+
+.fixed li.weixin:hover em{opacity: 1;transform: translateX(0px);-webkit-transform: translateX(0px);}
+
+.fixed li.go-top a{background: url(../images/ico-top.png) no-repeat center center;background-color: rgba(0,0,0,0.4);}
+
+.fixed li.go-top a:hover{background-color: rgb(74, 118, 184);}
+
+.fixed .tel:hover{width: 205px;background:rgb(74, 118, 184);border-radius: 50px;transform: translateX(-155px);-webkit-transform: translateX(-155px);}
+
+.fixed li.qq a:hover{background-color: rgb(74, 118, 184);}
+
+.fixed li.weixin:hover span{background-color: rgb(74, 118, 184);}
+
+
+
+/*page*/
+
+.page{padding-bottom: 132px;}
+
+.page li{float: left;margin: 0 5px;}
+
+.page li a{display: inline-block;width: 42px;height: 42px;border-radius: 22px;background: #c1c0c0;text-align: center;line-height: 42px;font-size: 18px;font-weight: bold;color: #fff;-o-transition:.3s;
+
+-ms-transition:.3s;
+
+-moz-transition:.3s;
+
+-webkit-transition:.3s;
+
+transition:.3s;}
+
+.page li a:hover{background: #f1433c;}
+
+.page li.on a{background: #f1433c;}
+
+.page li.prev a,.page li.next a{width: 120px;font-size: 14px;font-weight: normal;}
+
+.page li.prev span{display: inline-block;padding-left: 29px;background: url(../images/page-prev.png) no-repeat left center;}
+
+.page li.next span{display: inline-block;padding-right: 29px;background: url(../images/page-next.png) no-repeat right center;}
+
+.page li em{display: inline-block;height: 42px;width: 42px;text-align: center;line-height: 22px;font-size: 30px;color: #d2d1d1;}
+
+
+
+/*loading*/
+
+.loading{position: fixed;left:0;top:0;width: 100%;height: 100%;background: url(../images/loading.gif) no-repeat center center #fff;z-index: 9999;}
+.loading{display: none;}
+
+
+#fp-nav{display: none;}
+
+
+
+
+
+/*电话抖动*/
+
+.r1{
+
+     -moz-transform:rotate(-6deg);
+
+    -webkit-transform:rotate(-6deg);
+
+    -o-transform:rotate(-6deg);
+
+}
+
+.r2{
+
+     -moz-transform:rotate(5deg);
+
+    -webkit-transform:rotate(5deg);
+
+    -o-transform:rotate(5deg);
+
+}

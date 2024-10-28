@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>后台管理系统</title>
+<link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+<meta name="description" content="管理员后台">
+<meta name="author" content="yinqi">
+<link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+<link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+<!--标签插件-->
+<link rel="stylesheet" href="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.css">
+<link href="/behindstatic/css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--引入左侧导航页面-->
+    <nav th:replace="~{admin/left    ::  leftside(cl='ber')}"></nav>
+    <!--引入头部导航页面-->
+    <nav th:replace="~{admin/header  ::  headerside}"></nav>
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <form action="#" method="post" class="row" >
+                  <input id="shopId" type="hidden" name="id"  th:value="${banners.id}">
+                  <div class="form-group col-md-12">
+                    <label>图片上传</label>
+                    <div class="form-controls">
+                      <ul id="imgAdd"  class="list-inline clearfix lyear-uploads-pic">
+                        <li class="col-xs-4 col-sm-3 col-md-2">
+                          <input type="file" id="files" multiple   style="display: none;">
+                          <a class="pic-add" id="add-pic-btn"  href="#!" title="点击上传"></a>
+                        </li>
+                        <li  th:each="img : ${imgnames}"  class="col-xs-4 col-sm-3 col-md-2">
+                          <figure>
+                            <img th:src="${img}">
+                            <figcaption class="imgdel">
+                              <a class="btn btn-round btn-square btn-danger" href="#!"><i class="mdi mdi-delete"></i></a>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                  </div>
+                <div class="form-group col-md-12">
+                    <button type="button" id="sumits" class="btn btn-primary ajax-post" target-form="add-form">保存</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/perfect-scrollbar.min.js"></script>
+<!--标签插件-->
+<script src="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+
+<script>
+
+
+  $(function(){
+    var formData = new FormData();//可以向后台传输文件
+      //打开选择图片的框
+      $("#add-pic-btn").click(function(){
+        $("#files").click();
+      })
+      //图片上传
+      $("#files").change(function(){
+         var len  = $(this)[0].files.length;
+          for( var i    = 0;i<len;i++){
+              var url  = URL.createObjectURL($(this)[0].files[i]);
+              var html = '<li class="col-xs-4 col-sm-3 col-md-2"> <figure>'+
+                           '<img src="'+url+'" ">'+
+                            '<input  type="hidden" value='+$(this)[0].files[i].name+'>'+
+                             '  <figcaption class="del"> '+
+                                '  <a class="btn btn-round btn-square btn-danger" href="#!"><i class="mdi mdi-delete"></i></a>'+
+                         '  </figcaption>'+
+                       ' </figure></li>';
+
+               $("#imgAdd").append(html);
+               formData.append("mf",$(this)[0].files[i]);
+          }
+          
+          
+      });
+    //删除formDataz中的图片
+    $(document).on("click",".del",function(){
+      var fname = $(this).prev().val();//获取图片名称
+      var mufile  = formData.getAll("mf"); //获取所有文件
+      for(var i=0;i<mufile.length;i++){
+        //要删除的元素不能存入
+        if(mufile[i].name != fname){
+          //重新声明数组
+          formData.append("mldel",mufile[i]);
+        }
+      }
+      formData.delete("mf"); //删除之前的数据
+      var mldel  = formData.getAll("mldel");
+      for(var i=0;i<mldel.length;i++){
+          //重新存入
+          formData.append("mf",mldel[i]);
+      }
+      formData.delete("mldel");
+      $(this).parent().parent().remove();
+    });
+    //根据路径删除图片
+    $(document).on("click",".imgdel",function(){
+      var src = $(this).prev().attr("src");//获取图片名称
+      var id = $("#shopId").val();
+      $.ajax({
+        type :"get",
+        url  :"/admin/bannersDel?id="+id+"&src="+src,
+        success:function(data){
+          alert("删除成功");
+        }
+      });
+      $(this).parent().parent().remove();
+    });
+    $("#sumits").click(function(){
+       if(formData.getAll("mf").length > 0) {
+          formData.append("id",$("#shopId").val());
+          $.ajax({
+             type :"post",
+             url  :"/admin/bannersAdd",
+             data :formData,
+             processData :false,//规定通过请求发送的数据是否转换为查询字符串。默认是 true。
+             contentType :false,//发送数据到服务器时所使用的内容类型。
+             success:function(data){
+               alert("保存成功");
+             }
+           });
+       };
+
+    })
+  })
+</script>
+
+
+
+</body>
+</html>

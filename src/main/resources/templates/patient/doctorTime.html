@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>管理员后台</title>
+<link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+<meta name="keywords" content="后台">
+<meta name="description" content="后台">
+<meta name="author" content="yinqi">
+<link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+<link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+<!--标签插件-->
+<link rel="stylesheet" href="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.css">
+<link href="/behindstatic/css/style.min.css" rel="stylesheet">
+<!--时间选择插件-->
+<link rel="stylesheet" href="/behindstatic/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+<!--日期选择插件-->
+<link rel="stylesheet" href="/behindstatic/js/bootstrap-datepicker/bootstrap-datepicker3.min.css">
+</head>
+  
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--引入左侧导航页面-->
+    <nav th:replace="~{patient/left    :: leftside(cl='yisheng')}"></nav>
+    <!--引入头部导航页面-->
+    <nav th:replace="~{patient/header  ::  headerside}"></nav>
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                  <a th:href="@{/api/doctorList1}">
+		                <button  type="button" class="btn btn-default dropdown-toggle"  >
+		                  <i class="mdi mdi-keyboard-return"> </i>
+		                          返回
+		                </button>
+                </a>
+                <form action="/api/messagesSave" method="post" class="row">
+                  <input id="personId"  type="hidden"   name="did"   th:value="${doctor.id}">
+                  
+                    <div class="form-group col-md-12">
+                        <label for="peoples">坐诊日期</label>
+                        <div style="display: table;">
+                                        <input  class="form-control" autocomplete="off"	type="text" id="datetimeStart" name="begindate" placeholder="开始日期" disabled="disabled"  th:value="${#dates.format(doctor.begindate,'yyyy-MM-dd')}"   />
+                          <span class="input-group-addon"><i class="mdi mdi-chevron-right"></i></span>
+                                        <input class="form-control" autocomplete="off" type="text" id="datetimeEnd" name="enddate" placeholder="结束日期"  disabled="disabled" th:value="${#dates.format(doctor.enddate,'yyyy-MM-dd')}" />
+                       </div>
+                    </div>
+                     <div class="form-group col-md-12">
+                        <label for="mima">我要预约时间</label>
+	                   <div style="display: table;">
+	                   
+	                                  <input   id="time1" class="form-control" autocomplete="off" type="text"  name="sname" placeholder="开始时间"  data-side-by-side="true" data-locale="zh-cn"  />
+                     </div>
+                    </div>
+                      <div class="form-group col-md-12">
+                      <button type="button" class="btn btn-primary" target-form="add-form" id="sumits">确 定预约</button>
+                    </div>
+                    
+                </form>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/perfect-scrollbar.min.js"></script>
+<!--标签插件-->
+<script src="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+<!--时间选择插件-->
+<script src="/behindstatic/js/bootstrap-datetimepicker/moment.min.js"></script>
+<script src="/behindstatic/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="/behindstatic/js/bootstrap-datetimepicker/locale/zh-cn.js"></script>
+<!--日期选择插件-->
+<script src="/behindstatic/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="/behindstatic/js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+<script>
+	$("#datetimeStart").datepicker({ 
+		    format: 'yyyy-mm-dd',
+		    language: 'zh-CN',
+		    autoclose:true,//选中自动关闭
+		    startDate:new Date()//初始化当前日期,之前都不选择
+	});
+	$("#time1").datepicker({ 
+	    format: 'yyyy-mm-dd',
+	    language: 'zh-CN',
+	    autoclose:true,//选中自动关闭
+	    startDate:new Date()//初始化当前日期,之前都不选择
+});
+	$("#datetimeEnd").datepicker({ 
+	    format: 'yyyy-mm-dd',
+	    language: 'zh-CN',
+	    autoclose:true,//选中自动关闭
+	    startDate:new Date()//开始日期,之前都不选择
+});
+	
+  $(function(){
+		    $("#sumits").click(function(){
+		    	var sta  = $("#datetimeStart").val();
+		    	var end  = $("#datetimeEnd").val();
+		    	var time1  = $("#time1").val();
+		    	var time2  = $("#time2").val();
+		    	if(time1 == null || time1 == "" ){
+		    		alert("请输入预约时间");
+		    		return;
+		    	}
+		    	var   s   =   new   Date(Date.parse(sta.replace(/-/g,   "/")));
+		    	var   e   =   new   Date(Date.parse(time1.replace(/-/g,   "/")));
+		        if(e  < s){
+		    		alert("您预约的时间必须要在医生坐诊时间之后");
+		    		return;
+		    	}  
+			   $("form").submit(); 
+		     });
+		  
+ });
+</script>
+
+
+
+</body>
+</html>

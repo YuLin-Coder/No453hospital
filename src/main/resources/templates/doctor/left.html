@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>左侧导航栏</title>
+</head>
+<body>
+
+
+
+  <aside class="lyear-layout-sidebar"  th:fragment="leftside">
+    <!-- logo -->
+    <div id="logo" class="sidebar-header"  style="background-color: #48b0f7;">
+        <a href="javascript:void(0)" ><p style="margin: 19px 0px;font-size: 21px;color: #4d5259;">医生后台</p></a>
+    </div>
+    <div class="lyear-layout-sidebar-scroll" style="background-color: #4d5259;" >
+
+        <nav class="sidebar-main">
+            <ul class="nav nav-drawer">
+                <li class="nav-item"> <a href="/doctor/index"    th:style="'color:' + ${cl =='index' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-home"></i> 后台首页</a> </li>
+                <li class="nav-item"> <a href="/doctor/patientList" th:style="'color:' + ${cl =='pat' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-grease-pencil"></i>患者查询</a> </li>
+                <li class="nav-item"> <a href="/doctor/messageList?type=1" th:style="'color:' + ${cl =='gong' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-comment-text"></i>工作区</a> </li>
+            
+            
+             <!-- <li class="nav-item nav-item-has-subnav open" >
+                    <a href="javascript:void(0)" th:style="'color:' + ${cl ==1 || cl ==3   ? '#48b0f7' : '#fff;'}"><i class="mdi mdi-comment-text"  ></i>挂号管理</a>
+                    <ul class="nav nav-subnav">
+                        <li> <a href="/doctor/messageList?type=1"  th:style="'color:' + ${cl ==1 ? '#48b0f7' : '#fff;'}">叫号</a>   </li>
+                        <li> <a href="/doctor/messageList?type=2"  th:style="'color:' + ${cl ==3 ? '#48b0f7' : '#fff;'}">退号</a></li>
+                    </ul>
+                </li>
+           -->
+            </ul>
+        </nav>
+    </div>
+  </aside>
+<script type="text/javascript">
+ var doctor  ="[[${type}]]";
+
+</script>
+</body>
+</html>

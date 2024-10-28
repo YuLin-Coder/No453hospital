@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>头部导航栏</title>
+</head>
+<body>
+   <header class="lyear-layout-header" th:fragment="headerside">
+    <nav class="navbar navbar-default" style="background-color: #4d5259;">
+        <div class="topbar">
+
+            <div class="topbar-left">
+                <div class="lyear-aside-toggler">
+                    <span class="lyear-toggler-bar"></span>
+                    <span class="lyear-toggler-bar"></span>
+                    <span class="lyear-toggler-bar"></span>
+                </div>
+                <span class="navbar-page-title"  style=" color: #fff;">后台管理 </span>
+            </div>
+
+            <ul class="topbar-right">
+                <li class="dropdown dropdown-profile">
+                    <a href="javascript:void(0)" data-toggle="dropdown">
+                        <img class="img-avatar img-avatar-48 m-r-10" src="/behindstatic/images/users/guanli.jpg" alt="笔下光年" />
+                        <span>[[${session.DOCTOR.name}]]<span class="caret"></span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li> <a href="/doctor/doctorUptatePage"><i class="mdi mdi-lock-outline"></i>修改信息</a> </li>
+                        <li class="divider"></li>
+                        <li> <a href="/login/sessionInvalidate"><i class="mdi mdi-logout-variant"></i>退出登录</a> </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+</header>
+</body>
+</html>

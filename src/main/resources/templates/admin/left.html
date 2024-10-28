@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>左侧导航栏</title>
+</head>
+<body>
+  <aside class="lyear-layout-sidebar"  th:fragment="leftside">
+    <!-- logo -->
+    <div id="logo" class="sidebar-header" style="background-color: #48b0f7;">
+        <a href="javascript:void(0)" ><p style="margin: 19px 0px;font-size: 21px;color: #4d5259;">医院管理员后台</p></a>
+    </div>
+    <div class="lyear-layout-sidebar-scroll" style="background-color: #4d5259;">
+
+        <nav class="sidebar-main" >
+            <ul class="nav nav-drawer">
+                <li class="nav-item"> <a href="/admin/index"  th:style="'color:' + ${cl =='index' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-home"></i> 后台首页</a> </li>
+                <li class="nav-item"> <a href="/admin/sectionList" th:style="'color:' + ${cl =='se' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-comment-text"></i>科室管理</a> </li>
+                <li class="nav-item"> <a href="/admin/doctorList" th:style="'color:' + ${cl =='yisheng' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-grease-pencil"></i>医生管理</a> </li>
+         
+                <li class="nav-item"> <a href="/admin/bannersPageUpdate?id=1" th:style="'color:' + ${cl =='ber' ? '#48b0f7' : '#fff;'}" ><i class="mdi mdi-message-image"></i>轮播图片</a> </li>
+            </ul>
+        </nav>
+    </div>
+  </aside>
+
+</body>
+</html>

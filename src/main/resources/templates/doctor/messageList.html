@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>医生后台</title>
+  <link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+  <meta name="keywords" content="医生后台">
+  <meta name="description" content="医生后台">
+  <meta name="author" content="yinqi">
+
+
+  <link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="/behindstatic/css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--引入左侧导航页面-->
+    <nav th:replace="~{doctor/left   ::  leftside(cl='gong')}"></nav>
+    <!--引入头部导航页面-->
+    <nav th:replace="~{doctor/header  ::  headerside}"></nav>
+
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      
+      <div class="container-fluid">
+          <div class="row">
+                 <div class="col-lg-4" >
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>叫号</h4>
+                            </div>
+                            <div class="card-body" style="    height: 400px;">  
+                              
+                                <a  id="yuan" class="btn btn-primary btn-sm"   style="margin: 6% 21%;width: 196px; height: 191px; border-radius: 106px;">
+                                  <div style="margin:38px;font-size: 27px;">  
+                                    <span id="qjiaohao" style="font-size: 18px;">叫号</span></br></br>
+                                     <span id="shijian" style="font-size: 26px;border: 2px solid #eee;" >01:00</span>
+                                  
+                                </div>
+                                </a>
+                            	  <div style=" padding: 30px 0px;">
+                            	    <a  id="kai" class="btn btn-primary btn-sm" style=" width: 73px;  height: 28px;  margin: 0px 59px;"  >开始接诊</a>
+                            	    <a  id="jie"  class="btn btn-secondary btn-sm" style=" width: 73px;  height: 28px;  margin: 0px 59px;display: none"  >正在接诊</a>
+                            	    <a   id="jsuo"  class="btn btn-danger btn-sm"  style=" width: 73px;  height: 28px;" >结束</a>
+                            	  </div>
+                            	  
+                               
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-lg-8" style="margin: 0px -16px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>今日待就诊</h4>
+                            </div>
+                            <div class="card-body" style="    height: 400px;">
+                            <form id="tmessage" enctype="application/json" action="/doctor/tiaomessagelist" method="post">
+                            		<input type="hidden" name="mlist"  th:value="${mlist}">
+                            </form>
+                            
+                            
+                                    <table class="table table-bordered">
+					                    <thead>
+					                      <tr>
+					                           <th>编号</th>
+					                            <th>患者姓名</th>
+						                        <th>患者年龄</th>
+						                        <th>联系方式</th>
+						                        <th>操作</th>
+					                      </tr>
+					                    </thead>
+					                    <tbody id="trtian">
+					                     <tr th:each=" list,in : ${mlist}"  >
+					                         <td>#[[${list.bianhao}]]</td>
+					                         <td>[[${list.username}]]</td>
+					                         <td>[[${list.age}]] </td>
+					                      <!--   <td  th:text="${#dates.format(list.time,'yyyy/MM/dd')}"></td> -->
+					                        <td>[[${list.phone}]] </td>
+					                         <td style="width: 20%;" >
+					                         <div class="btn-group">
+					                            <button id="tiaoguo"    th:if="${in.count == 1}" ><i class="mdi mdi-plus"></i>跳过</button> 
+							                       <!--      <a class="btn btn-primary btn-sm"   th:if="${list.type == 1}"  th:href="@{/doctor/messagesUptate(id=${list.id})}"><i class="mdi mdi-plus"></i>确定</a>
+							                            <a class="btn btn-danger btn-sm"   th:if="${list.type == 1}"  th:href="@{/doctor/messagesQuXiao(id=${list.id})}"><i class="mdi mdi-plus"></i>取消</a>
+							                       -->
+					                          </div>
+					                        </td>
+					                      </tr> 
+					                    </tbody>
+                 					 </table>
+                            </div>
+                        </div>
+                    </div>
+         </div>
+        
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-toolbar clearfix">
+                <form  action="/doctor/messageList" class="pull-right search-bar" method="get"  role="form" style="margin: 0 30%">
+                  <div class="input-group" style="left: -52%;">
+                     <input type="text" class="form-control"  name="username"  th:value="${messages.username}"  placeholder="请输入名称">
+                     <input type="hidden" name="page" id="search-field"  th:value="${pageInfo.pageNum}">
+                     <div class="input-group-btn">
+                      <button  id="tijiao" type="button" class="btn btn-default dropdown-toggle"  >
+                        <i class="mdi mdi-magnify">  </i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                              <th>患者姓名</th>
+	                          <th>患者年龄</th>
+						      <th>联系方式</th>
+						      <th>预约日期</th>
+	                      <!--   <th >操作</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each=" list : ${messagesList}">
+                         <td>[[${list.username}]]</td>
+                        <td>[[${list.age}]]</td>
+                        <td>[[${list.phone}]]</td>
+                        <td  id='riqi' th:text="${#dates.format(list.time,'yyyy/MM/dd')}"></td>
+                        <!-- <td style="width: 20%;" >
+                          <div class="btn-group">
+                            <a class="btn btn-primary btn-sm"   th:if="${list.type == 1}"  th:href="@{/doctor/messagesUptate(id=${list.id})}"><i class="mdi mdi-plus"></i>确定</a>
+                            <a class="btn btn-danger btn-sm"   th:if="${list.type == 1}"  th:href="@{/doctor/messagesQuXiao(id=${list.id})}"><i class="mdi mdi-plus"></i>取消</a>
+                          </div>
+                        </td> -->
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <ul class="pagination">
+                  <li class="active">
+                    <a th:href="@{/doctor/messageList(page=1,type=${type})}">首页</a>
+                  </li>
+                  <li>
+                    <a th:href="@{/doctor/messageList(page=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,type=${type})}">上一页</a>
+                  </li>
+                  <li >
+                    <span style="border:0px solid #ddd;">
+                     [[${pageInfo.pageNum}]]页 /
+                     [[${pageInfo.pages}]]页
+                    </span>
+                  </li>
+                  <li>
+                    <a th:href="@{/doctor/messageList(page=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},type=${type})}">下一页</a>
+                  </li>
+                  <li class="active">
+                    <a th:href="@{/doctor/messageList(page=${pageInfo.pages},type=${type})}">尾页</a>
+                  </li>
+                </ul>
+       
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+<script type="text/javascript">
+
+	var  quan = null;
+	var  ri = null;
+	var  qshi = 59;
+	var  t = null;
+	function showAuto(){
+		if(qshi  <= 0){
+			$("#shijian").text("00:00");
+			clearTimeout(t);
+			ri = $("#riqi").text();
+	    	 $("#trtian").html(null);
+		   var html ='';
+		   var  j = 1;
+		   if(quan.length  > 0 ){
+	 		var me   =  quan[0];  
+	 		quan[0] = quan[quan.length -1];
+	 		 quan[quan.length -1] =  me;
+		   }
+	       for(var i = 0;i< quan.length;i++){
+	        	  var lin;
+	        	 if(i ==0){
+	        		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+	                  '<td>'+quan[i].username+'</td>'+
+	                  '<td>'+quan[i].age+'</td>'+
+	                  '<td>'+quan[i].phone+'</td>'+ 
+	                  '<td style="width: 20%;" >'+
+	                   ' <div class="btn-group s">'+
+	                  	  '<button id="tiaoguos" class="ss"   ><i class="mdi mdi-plus"></i>跳过</button>'+
+	                    '</div></td> </tr>';
+	        		 
+	        	 }else{
+	        		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+	                  '<td>'+quan[i].username+'</td>'+
+	                  '<td>'+quan[i].age+'</td>'+
+	                  '<td>'+quan[i].phone+'</td>'+ 
+	                  '<td style="width: 20%;" >'+
+	                   ' <div class="btn-group">'+
+	                    '</div></td> </tr>';
+	        	   }
+	                html = html +lin;
+	        	    j++;
+	           } 
+	           
+	           $('#trtian').append(html); 
+		    return;
+		}
+		$("#shijian").text("00:"+qshi);
+		qshi--;
+		
+		
+	}
+
+  $(function(){
+	   $.ajax({
+           type: "get",
+           url: "/doctor/messageAjax",
+           success: function (data) {
+        	   quan  = data;
+           }
+       });
+	  
+	  
+      $('.search-bar .dropdown-menu a').click(function() {
+          var field = $(this).data('field') || '';
+          $('#search-field').val(field);
+          $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+      });
+    //点击叫号按钮
+     $('#yuan').click(function() { 
+    	 $('#qjiaohao').text("正在叫号");
+    	 $('#yuan').css("background-color","rgb(0 0 0 / 35%)");
+    	　t = setInterval("showAuto()", 1000);
+
+
+     });
+     //点击开始接诊按钮
+     $('#kai').click(function() { 
+    	 $('#qjiaohao').text("正在接诊");
+     	$(this).hide();
+     	$("#jie").show();
+     	 $('#yuan').css("background-color","red");
+     	clearTimeout(t);
+     	  
+       });
+       
+       $('#jsuo').click(function() { 
+	    	if(quan.length > 0){
+	    	var id	=  quan[0].id;
+	    	   $.ajax({
+	                 type: "get",
+	                 url: "/doctor/messagesQundingUptate?id="+id,
+	                 success: function (data) {
+	                	    quan.shift();
+	                	    ri = $("#riqi").text();
+	                   	      $("#trtian").html(null);
+	                		if(quan.length > 0){
+	                		    var html ='';
+	                			 var  j = 1;
+	                			 for(var i = 0;i< quan.length;i++){
+	                	        	  var lin;
+	                	        	 if(i ==0){
+	                	        		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+	                	                  '<td>'+quan[i].username+'</td>'+
+	                	                  '<td>'+quan[i].age+'</td>'+
+	                	                  '<td>'+quan[i].phone+'</td>'+ 
+	                	                  '<td style="width: 20%;" >'+
+	                	                   ' <div class="btn-group s">'+
+	                	                  	  '<button id="tiaoguos" class="ss"   ><i class="mdi mdi-plus"></i>跳过</button>'+
+	                	                    '</div></td> </tr>';
+	                	        	 }else{
+	                	        		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+	                	                  '<td>'+quan[i].username+'</td>'+
+	                	                  '<td>'+quan[i].age+'</td>'+
+	                	                  '<td>'+quan[i].phone+'</td>'+ 
+	                	                  '<td style="width: 20%;" >'+
+	                	                   ' <div class="btn-group">'+
+	                	                    '</div></td> </tr>';
+	                	        	   }
+	                	                html = html +lin;
+	                	        	    j++;
+	                	           } 
+	                	           $('#trtian').append(html); 
+	                		} 
+	                 }
+	             });
+	        } 
+    	    clearTimeout(t);
+    	    qshi = 59;
+    		$("#shijian").text("01:00");
+    	    $('#qjiaohao').text("叫号");
+	       	$("#kai").show();
+	       	$("#jie").hide();
+            $('#yuan').css("background-color","#33cabb");
+       	
+        });  
+       
+     //第一次页面点击跳转 
+    $('#tiaoguo').click(function() { 
+        ri = $("#riqi").text();
+    	 $("#trtian").html(null);
+	   var html ='';
+	   var  j = 1;
+	   if(quan.length  > 0){
+		     $.ajax({
+                 type: "get",
+                 url: "/doctor/tiaozhuanList?xiao="+quan[0].id+"&da="+quan[quan.length -1].id,
+                 success: function (data) {
+                   
+                 }
+             });
+ 		 var me   =  quan[0];  
+ 		 quan[0] = quan[quan.length -1];
+ 		 quan[quan.length -1] =  me;
+	   }
+       for(var i = 0;i< quan.length;i++){
+        	  var lin;
+        	 if(i ==0){
+        		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+                  '<td>'+quan[i].username+'</td>'+
+                  '<td>'+quan[i].age+'</td>'+
+                  '<td>'+quan[i].phone+'</td>'+ 
+                  '<td style="width: 20%;" >'+
+                   ' <div class="btn-group s">'+
+                  	  '<button id="tiaoguos" class="ss"   ><i class="mdi mdi-plus"></i>跳过</button>'+
+                    '</div></td> </tr>';
+        		 
+        	 }else{
+        		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+                  '<td>'+quan[i].username+'</td>'+
+                  '<td>'+quan[i].age+'</td>'+
+                  '<td>'+quan[i].phone+'</td>'+ 
+                  '<td style="width: 20%;" >'+
+                   ' <div class="btn-group">'+
+                    '</div></td> </tr>';
+        	    }
+                html = html +lin;
+        	    j++;
+           } 
+           $('#trtian').append(html); 
+           
+           
+           
+           
+           
+           
+           
+      });
+    //跳转 
+    $(document).on('click','.ss',function(){
+    	ri = $("#riqi").text();
+	   	 $("#trtian").html(null);
+		   var html ='';
+		   var  j = 1;
+		   if(quan.length  > 0 ){
+			   $.ajax({
+	                 type: "get",
+	                 url: "/doctor/tiaozhuanList?xiao="+quan[0].id+"&da="+quan[quan.length -1].id,
+	                 success: function (data) {
+	                   
+	                 }
+	             });
+			 var me   =  quan[0];  
+			 quan[0] = quan[quan.length -1];
+			 quan[quan.length -1] =  me;
+		   }
+	      for(var i = 0;i< quan.length;i++){
+	       	  var lin;
+	       	 if(i ==0){
+	       		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+	                 '<td>'+quan[i].username+'</td>'+
+	                 '<td>'+quan[i].age+'</td>'+
+	                 '<td>'+quan[i].phone+'</td>'+ 
+	                 '<td style="width: 20%;" >'+
+	                  ' <div class="btn-group s">'+
+	                 	  '<button id="tiaoguos" class="ss"   ><i class="mdi mdi-plus"></i>跳过</button>'+
+	                   '</div></td> </tr>';
+	       		 
+	       	 }else{
+	       		  lin = '<tr><td>#' +quan[i].bianhao+'</td>'+ 
+	                 '<td>'+quan[i].username+'</td>'+
+	                 '<td>'+quan[i].age+'</td>'+
+	                 '<td>'+quan[i].phone+'</td>'+ 
+	                 '<td style="width: 20%;" >'+
+	                  ' <div class="btn-group">'+
+	                   '</div></td> </tr>';
+	       	   }
+	               html = html +lin;
+	       	    j++;
+	          } 
+          
+          $('#trtian').append(html); 
+      });
+
+ 
+    
+   
+    $('#tijiao').click(function() {
+      var sou = $('#sou').val();
+      if( sou != null && sou != ""){
+        var ban = /^[a-zA-Z]+$/.test(sou);
+        if(!ban){
+          alert("请输入字母");
+          return;
+        }
+       }
+      $("form").submit();
+    });
+
+  });
+</script>
+</body>
+</html>

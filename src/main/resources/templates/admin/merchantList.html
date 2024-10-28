@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="zh"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>管理员后台</title>
+    <link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+    <meta name="keywords" content="管理员后台">
+    <meta name="description" content="管理员后台">
+    <meta name="author" content="yinqi">
+
+
+    <link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/behindstatic/css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--引入左侧导航页面-->
+        <nav th:replace="~{behind/admin/left   ::  leftside(cl='message')}"></nav>
+        <!--引入头部导航页面-->
+        <nav th:replace="~{behind/admin/header  ::  headerside}"></nav>
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-toolbar clearfix">
+                               <span>审核</span>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>用户名</th>
+                                            <th>联系方式</th>
+                                            <th>性别</th>
+                                            <th>时间</th>
+                                            <th>内容</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="ml : ${merchantlist}">
+                                            <td>[[${ml.name}]]</td>
+                                            <td>[[${ml.phone}]]</td>
+                                            <td>
+                                                <span th:if="${ml.sex == 1}">男</span>
+                                                <span th:if="${ml.sex == 2}">女</span>
+                                            </td>
+                                            <td  th:text="${#dates.format(ml.time,'yyyy/MM/dd HH:mm')}"></td>
+                                            <td>[[${ml.introduce}]]</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-primary btn-sm"   th:href="@{/admin/merchanUpate(id=${ml.id})}"><i class="mdi mdi-plus"></i> 通过</a>
+                                                    <a class="btn btn-danger  btn-sm"   th:href="@{/admin/merchanDel(id=${ml.id})}"><i class="mdi mdi-window-close"></i> 不通过</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.search-bar .dropdown-menu a').click(function() {
+            var field = $(this).data('field') || '';
+            $('#search-field').val(field);
+            $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+        });
+    });
+</script>
+</body>
+</html>

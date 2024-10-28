@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>管理员后台</title>
+<link rel="icon" href="/behindstatic/images/favicon.ico" type="image/ico">
+<meta name="keywords" content="管理员后台">
+<meta name="description" content="管理员后台">
+<meta name="author" content="yinqi">
+<link href="/behindstatic/css/bootstrap.min.css" rel="stylesheet">
+<link href="/behindstatic/css/materialdesignicons.min.css" rel="stylesheet">
+<!--标签插件-->
+<link rel="stylesheet" href="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.css">
+<link href="/behindstatic/css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--引入左侧导航页面-->
+    <nav th:replace="~{admin/left    :: leftside(cl='yisheng')}"></nav>
+    <!--引入头部导航页面-->
+    <nav th:replace="~{admin/header  ::  headerside}"></nav>
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <a th:href="@{/admin/doctorList}">
+		                <button  type="button" class="btn btn-default dropdown-toggle"  >
+		                  <i class="mdi mdi-keyboard-return"> </i>
+		                          返回
+		                </button>
+                </a>
+                <form action="/admin/admindoctorUptate" method="post" class="row">
+                  <input id="personId"  type="hidden"   name="id"   th:value="${doctor.id}">
+                     <div class="form-group col-md-12">
+	                    <label>选择头像</label>
+	                    <div class="form-controls">
+	                      <ul id="imgAdd"  class="list-inline clearfix lyear-uploads-pic">
+	                        <li class="col-xs-4 col-sm-3 col-md-2">
+	                          <input type="file" id="files"    style="display: none" >
+	                          <a class="pic-add" id="add-pic-btn"  href="#!" title="点击上传"  style="height:100px"></a>
+	                        </li>
+	                        <li class="col-xs-4 col-sm-3 col-md-2" id="imgdan">
+		                         <figure>
+		                            <img th:src="${doctor.img}" style="height: 108px;">
+		                         
+	                          </figure>
+	                        </li>
+	                      </ul>
+	                    </div>
+	                  </div>
+                    <div class="form-group col-md-12">
+                        <label for="peoples">患者数量设置</label>
+                        <input type="text" class="form-control" id="peoples" name="peoples"   th:value="${doctor.peoples}" placeholder="每天患者数量设置"  onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                    </div>
+                       <div class="form-group col-md-12">
+                        <label for="mima">姓名</label>
+                        <input type="text" class="form-control" id="zhanghao" name="name"   th:value="${doctor.name}" placeholder="请输入姓名" />
+                    </div>
+                     <div class="form-group col-md-12">
+                        <label for="mima">职位</label>
+                        <input type="text" class="form-control" id="zhanghao" name="position"   th:value="${doctor.position}" placeholder="请输入职位" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="mima">所在医院</label>
+                        <input type="text" class="form-control" id="zhanghao" name="hosname"   th:value="${doctor.hosname}" placeholder="所在医院名称" />
+                    </div>
+                      <div class="form-group col-md-12" >
+                           <label for="example-select">科室</label>
+	                        <select class="form-control" id="example-select" >
+		                        <option  th:each="list : ${sectionlist}"  th:value="${list.id}" th:selected="${list.id==se1.pid}" >[[${list.name}]]</option>
+                           </select>
+                     </div>
+                      <div class="form-group col-md-12">
+                           <label for="example-select2">科室详情</label>
+	                        <select class="form-control" id="example-select2" name="sid"  size="5" >
+		                        <option th:each="list,in : ${sectionlist2}"  th:value="${list.id}" th:selected="${list.id==doctor.sid}">[[${list.name}]]</option>
+                           </select>
+                     </div>
+                       <div class="form-group col-md-12">
+	                        <label for="mima">账号</label>
+	                        <input type="text" class="form-control" id="zhanghao" name="username"    th:value="${doctor.username}" placeholder="请输入账号" />
+	                    </div>
+	                   <div class="form-group col-md-12">
+	                      <label for="mima">密码</label>
+	                      <input type="password" class="form-control" id="mima" name="passwoed"  th:value="${doctor.passwoed}" placeholder="请输入密码" />
+	                    </div>
+                    
+	                  <div class="form-group  col-md-12">
+	                      <label class="col-xs-12" for="example-textarea-input">擅长</label>
+	                      <textarea class="form-control" id="example-textarea-input" name="forte" rows="6" th:utext="${doctor.forte}"  placeholder="内容.."></textarea>
+	                  </div>
+	                  <div class="form-group  col-md-12">
+	                      <label class="col-xs-12" for="example-textarea-input">简介</label> 
+	                      <textarea class="form-control" id="example-textarea-input" name="introduce" rows="6" th:utext="${doctor.introduce}" placeholder="内容.."></textarea>
+	                  </div>
+                    <div class="form-group col-md-12">
+                      <button type="button" class="btn btn-primary" target-form="add-form" id="sumits">确 定</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+
+<script type="text/javascript" src="/behindstatic/js/jquery.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/perfect-scrollbar.min.js"></script>
+<!--标签插件-->
+<script src="/behindstatic/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="/behindstatic/js/main.min.js"></script>
+<script>
+  function uploadVidoe() {
+            var mima   = document.getElementById("mima");
+             if(mima == null || mima == ''){
+               alert("请输入密码");
+               return;
+             }
+           $("form").submit();
+
+  }
+  $(function(){
+	  $("#example-select").change(function(){
+		   var id  =  $(this).val();
+		    $.ajax({
+                type: "get",
+                url: "/login/sectionxList?id="+id,
+                success: function (data) {
+                	if(data.length >0){
+                		 var html = "";
+                		 for(var i=0;i<data.length;i++){
+                			 if(i==0){
+                				 xiang   =  '<option selected="selected"  value='+data[i].id+'>'+data[i].name+'</option>'; 
+                			 }else{
+                				 xiang   =  '<option   value='+data[i].id+'>'+data[i].name+'</option>'; 
+                			 }
+                			 
+                			 html = html+xiang;
+                         } 
+                         $("#example-select2").html(html);
+                	}else{
+                		   $("#example-select2").html("");
+                	}
+                   
+                    
+                }
+            });
+	    });
+	    var formData = new FormData();//可以向后台传输文件
+	      //打开选择图片的框
+	      $("#add-pic-btn").click(function(){
+	        $("#files").click();
+	      })
+	      //图片上传
+	      $("#files").change(function(){
+	                var len  = $(this)[0].files.length;
+	              var url  = URL.createObjectURL($(this)[0].files[0]);
+	              var html = '<li class="col-xs-4 col-sm-3 col-md-2" id="imgdan"><figure>'+
+	                           '<img src="'+url+'"  style="height:108px;"  ">'+
+	                            '<input  type="hidden"   value='+$(this)[0].name+'>'+
+	                             '  <figcaption class="del"> '+
+	                         '  </figcaption>'+
+	                       ' </figure></li>'; 
+	               $("#imgdan").replaceWith(html);
+	               formData.append("mf",$(this)[0].files[0]);
+	       });
+		    $("#sumits").click(function(){
+		                 formData.append("id",$("#personId").val());
+					     if(formData.getAll("mf").length > 0){
+					          $.ajax({
+					            type :"post",
+					            url  :"/login/zixunAdd",
+					            data :formData,
+					            processData :false,//规定通过请求发送的数据是否转换为查询字符串。默认是 true。
+					            contentType :false,//发送数据到服务器时所使用的内容类型。
+					            success:function(data){
+					            	
+					            }
+					           });
+				         }
+					     $("form").submit(); 
+		     });
+	  });
+</script>
+
+
+
+</body>
+</html>
